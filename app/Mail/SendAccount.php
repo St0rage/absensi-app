@@ -38,7 +38,8 @@ class SendAccount extends Mailable
                         'name' => $this->account['name'],
                         'email' => $this->account['email'],
                         'nim' => $this->account['nim'],
-                        'password' => $this->account['password']
+                        'password' => $this->account['password'],
+                        'flash' => $this->account['flash']
                     ]);
     }
 }

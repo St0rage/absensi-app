@@ -19,6 +19,21 @@ Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('g
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
+// RESET PASSWORD
+Route::get('/forgot-password', function() {
+    return view('login.forgot');
+})->middleware('guest')->name('password.reset');
+
+Route::get('/forgot-password/{token}', function($token) {
+    return view('login.reset', [
+        'token' => $token
+    ]);
+})->middleware('guest')->name('password.reset');
+
+Route::post('/forgot-password', [LoginController::class, 'forgotPassword']);
+Route::post('/reset-password', [LoginController::class, 'resetPassword'])->middleware('guest')->name('password.update');
+// END RESET PASSWORD
+
 Route::resource('/dashboard/user', UserController::class)->middleware('auth');
 
 Route::get('/dashboard', function() {

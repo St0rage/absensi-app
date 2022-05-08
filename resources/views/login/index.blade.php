@@ -21,12 +21,22 @@
           {{ session('LoginError') }}
         </div>
         @endif
+        @if (session()->has('status'))
+        <div class="alert alert-success" role="alert">
+          {{ session('status') }}
+        </div>
+        @endif
+        @if (session()->has('email'))
+        <div class="alert alert-danger" role="alert">
+            {{ session('email') }}
+        </div>
+        @endif
+        <div class="d-flex justify-content-center">
+          <img class="mb-3 img-fluid" src="img/logo.png" width="150" height="150">
+        </div>
+        <h5 class="mb-4 text-center">Selamat Datang di Sistem Absensi AMIK Garut</h5>
         <form action="/login" method="post">
           @csrf
-          <div class="d-flex justify-content-center">
-            <img class="mb-3 img-fluid" src="img/logo.png" width="150" height="150">
-          </div>
-          <h5 class="mb-4 text-center">Selamat Datang di Sistem Absensi AMIK Garut</h5>
     
           <div class="form-floating">
             <input type="text" class="form-control @error('login') is-invalid @enderror" id="login" name="login" placeholder="email@emai.coms" autofocus>
@@ -48,7 +58,7 @@
           </div>
 
           <button class="w-100 btn btn-lg btn-warning mt-3 mb-2" type="submit">Login</button>
-          <small class="d-block text-center">Lupa Password? <a href="#">Klik disni</a></small>
+          <small class="d-block text-center">Lupa Password? <a href="/forgot-password">Klik disni</a></small>
         </form>
       </div>
     </div>

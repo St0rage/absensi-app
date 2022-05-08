@@ -67,7 +67,8 @@ class UserController extends Controller
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'nim' => $validatedData['nim'] ?? '',
-            'password' => $password
+            'password' => $password,
+            'flash' => 'Telah Aktif'
         ]));
 
         return redirect('/dashboard/user')->with('success', 'User baru berhasil ditambahkan');
@@ -90,9 +91,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('dashboard.user.edit', [
+            'user' => $user,
+            'roles' => Role::all()
+        ]);
     }
 
     /**
@@ -102,9 +106,45 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $rules = [
+            'name' => 'required|max:255',
+            'role_id' => 'required',
+        ];
+
+        if($request->email != $user->email) {
+            $rules['email'] = 'required|email:dns|unique:users';
+        }
+
+        if($request->input('role_id') == 2) {
+            $rules['nim'] = 'required_if:role_id,2|min:8';
+        }
+
+        $validatedData = $request->validate($rules);
+
+        if ($request->has('reset')) {
+            $password = mt_rand(10000,50000);
+            $validatedData['password'] = Hash::make($password);
+
+            User::where('id', $user->id )
+                    ->update($validatedData);
+
+            Mail::to($request->email)->send(new SendAccount([
+                'name' => $validatedData['name'],
+                'email' => $request->email,
+                'nim' => $validatedData['nim'] ?? '',
+                'password' => $password,
+                'flash' => 'Berhasil di Update'
+            ]));
+
+            return redirect('/dashboard/user')->with('success', 'User ' . $request->name . ' Berhasil di edit');
+        }
+
+        User::where('id', $user->id )
+                ->update($validatedData);
+
+        return redirect('/dashboard/user')->with('success', 'User ' . $request->name . ' Berhasil di edit');
     }
 
     /**
@@ -113,8 +153,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        User::destroy($user->id);
+        return redirect('dashboard/user')->with('success', 'User berhasil dihapus');
     }
 }

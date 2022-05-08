@@ -15,10 +15,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <div class="mb-3 d-flex justify-content-center">
-                    <img src="/img/logo.png" width="50" height="50" class="img-fluid"  alt="logo">
-                </div>
-                <h1 class="mb-3 text-center">Selamat {{ $name }} Akun Anda Telah Aktif</h1>
+                <h1 class="mb-3 text-center">Selamat {{ $name }} Akun Anda {{ $flash }}</h1>
                 <div>
                     <p>Gunakan Email/NIM Dan Password Untuk Login</p>
                     <p>Email : {{ $email }}</p>

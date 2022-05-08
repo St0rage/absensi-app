@@ -32,8 +32,12 @@
               <td>{{ $user->nim }}</td>
               <td>{{ $user->role->name }}</td>
               <td>
-                  <a href="#" class="badge bg-warning"><span data-feather="edit"></span></a>
-                  <a href="#" class="badge bg-danger"><span data-feather="user-x"></span></a>
+                  <a href="/dashboard/user/{{ $user->id }}/edit" class="badge bg-warning"><span data-feather="edit"></span></a>
+                  <form action="/dashboard/user/{{ $user->id }}" method="post" class="d-inline">
+                    @method('delete')
+                    @csrf
+                    <button type="submit" class="badge bg-danger border-0" onclick="return confirm('Yakin ingin ingin menghapus user ini')" ><span data-feather="user-x"></span></button>
+                  </form>
               </td>
             </tr>
             @endforeach
