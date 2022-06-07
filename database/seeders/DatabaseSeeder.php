@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Classroom;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -29,6 +30,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Dani Yudistira M',
             'nim' => '23194020',
             'role_id' => 2,
+            'classroom_id' => 1,
             'email' => 'daniyudistira25@gmail.com',
             'password' => bcrypt('dani12345')
         ]);
@@ -37,6 +39,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Veronica Christine',
             'nim' => '23194021',
             'role_id' => 2,
+            'classroom_id' => 1,
             'email' => 'veronicachristine@gmail.com',
             'password' => bcrypt('vero12345')
         ]);
@@ -45,6 +48,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Khoiri Amal',
             'nim' => '23194022',
             'role_id' => 2,
+            'classroom_id' => 1,
             'email' => 'khoiriamal@gmail.com',
             'password' => bcrypt('khoiri12345')
         ]);
@@ -53,6 +57,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Risman Kristiawan',
             'nim' => '23194023',
             'role_id' => 2,
+            'classroom_id' => 1,
             'email' => 'rismankristiawan@gmail.com',
             'password' => bcrypt('risman12345')
         ]);
@@ -82,6 +87,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Akmal Maulana',
             'nim' => '23194024',
             'role_id' => 2,
+            'classroom_id' => 1,
             'email' => 'akmalmaulana@gmail.com',
             'password' => bcrypt('akmal12345')
         ]);
@@ -97,5 +103,16 @@ class DatabaseSeeder extends Seeder
         Role::create([
             'name' => 'Dosen'
         ]);
+
+        Classroom::create([
+            'name' => 'TI Reguler Semester 6',
+            'slug' => 'ti-reguler-semester-6'
+        ]);
+
+        Classroom::create([
+            'name' => 'MI Reguler Semester 6',
+            'slug' => 'mi-reguler-semester-6'
+        ]);
+        
     }
 }

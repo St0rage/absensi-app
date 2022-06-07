@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -34,7 +35,16 @@ Route::post('/forgot-password', [LoginController::class, 'forgotPassword']);
 Route::post('/reset-password', [LoginController::class, 'resetPassword'])->middleware('guest')->name('password.update');
 // END RESET PASSWORD
 
-Route::resource('/dashboard/user', UserController::class)->middleware('auth');
+// DASHBOARD-USER
+Route::resource('/dashboard/user', UserController::class)->middleware('admin');
+// END DASHBOARD-USER
+
+// DASHBOARD-CLASSROOM
+Route::get('/dashboard/classroom/participant/{classroom:slug}', [ClassroomController::class, 'showParticipant'])->middleware('admin');
+Route::post('/dashboard/classroom/participant', [ClassroomController::class, 'addParticipant'])->middleware('admin');
+Route::resource('/dashboard/classroom', ClassroomController::class)->middleware('admin');
+// END DASHBOARD-CLASSROOM
+
 
 Route::get('/dashboard', function() {
     return view('dashboard.index');

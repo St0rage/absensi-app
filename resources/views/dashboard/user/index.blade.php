@@ -19,6 +19,7 @@
               <th scope="col">Nama</th>
               <th scope="col">Email</th>
               <th scope="col">NIM</th>
+              <th scope="col">Kelas</th>
               <th scope="col">Role</th>
               <th scope="col">Aksi</th>
             </tr>
@@ -29,7 +30,8 @@
               <td scope="row">{{ $loop->iteration }}</td>
               <td>{{ $user->name }}</td>
               <td>{{ $user->email }}</td>
-              <td>{{ $user->nim }}</td>
+              <td>{{ $user->nim ?? '-' }}</td>
+              <td>{{ $user->classroom->name ?? '-'}}</td>
               <td>{{ $user->role->name }}</td>
               <td>
                   <a href="/dashboard/user/{{ $user->id }}/edit" class="badge bg-warning"><span data-feather="edit"></span></a>

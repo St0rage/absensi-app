@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('nim')->unique()->nullable();
             $table->string('email')->unique();
             $table->foreignId('role_id');
-            $table->foreignId('classrom_id')->default(0);
+            $table->foreignId('classroom_id')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

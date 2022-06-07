@@ -36,7 +36,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('dashboard/kelas*') ? 'active' : '' }}" href="#">
+                <a class="nav-link {{ Request::is('dashboard/classroom*') ? 'active' : '' }}" href="/dashboard/classroom">
                 <span data-feather="home"></span>
                 Kelas
                 </a>
