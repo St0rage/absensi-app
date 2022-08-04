@@ -131,7 +131,7 @@ return [
     'starts_with' => 'The :attribute must start with one of the following: :values.',
     'string' => 'The :attribute must be a string.',
     'timezone' => 'The :attribute must be a valid timezone.',
-    'unique' => 'The :attribute has already been taken.',
+    'unique' => ':attribute sudah digunakan.',
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute must be a valid URL.',
     'uuid' => 'The :attribute must be a valid UUID.',
@@ -156,6 +156,30 @@ return [
         ],
         'nim' => [
             'required_if' => 'NIM tidak boleh kosong'
+        ],
+        'subject_code' => [
+            'required' => 'Kode Mata Kuliah tidak boleh kosong',
+            'unique' => 'Kode Mata Kuliah sudah digunakan'
+        ],
+        'subject_id' => [
+            'prohibited' => 'Pilih Mata Kuliah Terlebih Dahulu'
+        ],
+        'classroom_id' => [
+            'prohibited' => 'Silahkan Pilih Kelas'
+        ],
+        'meeting' => [
+            'min' => 'Pertemuan tidak boleh kosong/nol',
+            'max' => 'Pertemuan sudah melebihi batas yang ditentukan'
+        ],
+        'subject_matter' => [
+            'required' => 'Materi Perkuliahan tidak boleh kosong'
+        ],
+        'expired' => [
+            'required' => 'Batas Absensi tidak boleh kosong',
+            'numeric' => 'Batas Absensi harus menggunakan angka'
+        ],
+        'signature' => [
+            'required' => 'Tanda Tangan Kehadiran Harus Diisi'
         ]
     ],
 

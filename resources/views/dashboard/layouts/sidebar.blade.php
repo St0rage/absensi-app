@@ -7,16 +7,22 @@
                 Dashboard
                 </a>
             </li>
-            @can('user')    
+            @can('lecture')    
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('dashboard/kehadiran*') ? 'active' : '' }}" href="#">
-                <span data-feather="calendar"></span>
-                Kehadiran
+                <a class="nav-link {{ Request::is('dashboard/attendance/recap*') ? 'active' : '' }}" href="/dashboard/attendance/recap">
+                <span data-feather="book"></span>
+                Rekap
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('dashboard/attendance') ? 'active' : '' }}" href="/dashboard/attendance">
+                <span data-feather="file-plus"></span>
+                Buat Absensi
                 </a>
             </li>
             @endcan
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('dashboard/profil*') ? 'active' : '' }}" href="#">
+                <a class="nav-link {{ Request::is('dashboard/profil*') ? 'active' : '' }}" href="/dashboard/profile">
                 <span data-feather="user"></span>
                 Profil
                 </a>
@@ -42,18 +48,26 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('dashboard/absensi*') ? 'active' : '' }}" href="#">
-                <span data-feather="file-plus"></span>
-                Buat Absensi
+                <a class="nav-link {{ Request::is('dashboard/subject*') ? 'active' : '' }}" href="/dashboard/subject">
+                <span data-feather="book-open"></span>
+                Mata Kuliah
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('dashboard/rekapitulasi*') ? 'active' : '' }}" href="#">
+                <a class="nav-link {{ Request::is('dashboard/recap*') ? 'active' : '' }}" href="/dashboard/recap">
                 <span data-feather="book"></span>
                 Rekap
                 </a>
             </li>
         </ul>
         @endcan
+        <ul class="nav flex-column mb-2">
+            <li class="nav-item">                
+                <form class="d-flex" action="/logout" method="post">
+                    @csrf
+                    <button type="submit" class="nav-link border-0 bg-white"><span data-feather="log-out"></span>Logout</a></button>
+                </form>
+            </li>
+        </ul>
     </div>
     </nav>

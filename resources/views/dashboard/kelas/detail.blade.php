@@ -10,7 +10,10 @@
       {{ session('success') }}
     </div>
     @endif
-    <a href="/dashboard/classroom/participant/{{ $classroom->slug }}" class="btn btn-sm btn-primary my-3">Update Peserta</a>
+    <div class="col lg-8 my-3">
+      <a href="/dashboard/classroom/participant/{{ $classroom->slug }}" class="btn btn-sm btn-primary">Update Peserta</a>
+      <a href="/dashboard/classroom/subject/{{ $classroom->slug }}" class="btn btn-sm btn-primary">Update Mata Kuliah</a>
+    </div>
     <h5>Daftar Peserta Kelas</h5>
     <div class="table-responsive col-lg-8 mb-4">
         <table class="table table-striped table-sm">
@@ -22,11 +25,35 @@
             </tr>
           </thead>
           <tbody>
-            @foreach ($users as $user)    
+            @foreach ($classroom->users as $user)    
             <tr>
               <td scope="row">{{ $loop->iteration }}</td>
               <td>{{ $user->name }}</td>
               <td>{{ $user->nim }}</td>
+            </tr>
+            @endforeach
+          </tbody>
+        </table>
+    </div>
+
+    <h5>Daftar Mata Kuliah</h5>
+    <div class="table-responsive col-lg-8 mb-4">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Kode Mata Kuliah</th>
+              <th scope="col">Nama Mata Kuliah</th>
+              <th scope="col">Dosen</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($classroom->subjects as $subject)    
+            <tr>
+              <td scope="row">{{ $loop->iteration }}</td>
+              <td>{{ $subject->subject_code }}</td>
+              <td>{{ $subject->name }}</td>
+              <td>{{ $subject->user->name }}</td>
             </tr>
             @endforeach
           </tbody>

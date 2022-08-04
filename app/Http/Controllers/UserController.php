@@ -19,8 +19,9 @@ class UserController extends Controller
     public function index()
     {
         return view('dashboard.user.index', [
-            'users' => User::orderBy('role_id', 'asc')->get()
+            'users' => User::orderBy('role_id', 'asc')->with(['role', 'classroom'])->get()
         ]);
+
     }
 
     /**

@@ -41,7 +41,6 @@
                         @endif
                     @endforeach
                 </select>
-                
             </div>
                 {{-- CONDITIONAL --}}
             <div class="mb-3 nim" style="display: none">

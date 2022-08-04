@@ -15,7 +15,7 @@
     
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-4">
+      <div class="col-xl-4 col-lg-4 col-md-6 col-sm-8">
         @if (session()->has('LoginError'))
         <div class="alert alert-danger" role="alert">
           {{ session('LoginError') }}

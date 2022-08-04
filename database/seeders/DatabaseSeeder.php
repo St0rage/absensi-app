@@ -2,9 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\ActiveAttendance;
+use App\Models\AttendanceStatus;
 use App\Models\Classroom;
 use App\Models\Role;
+use App\Models\Subject;
 use App\Models\User;
+use Carbon\Carbon;
+use DateTimeZone;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -104,14 +109,66 @@ class DatabaseSeeder extends Seeder
             'name' => 'Dosen'
         ]);
 
+        AttendanceStatus::create([
+            'name' => 'Hadir'
+        ]);
+
+        AttendanceStatus::create([
+            'name' => 'Alpa'
+        ]);
+
+        AttendanceStatus::create([
+            'name' => 'Sakit'
+        ]);
+
+        AttendanceStatus::create([
+            'name' => 'Izin'
+        ]);
+
         Classroom::create([
             'name' => 'TI Reguler Semester 6',
-            'slug' => 'ti-reguler-semester-6'
+            'slug' => 'ti-reguler-semester-6',
         ]);
 
         Classroom::create([
             'name' => 'MI Reguler Semester 6',
-            'slug' => 'mi-reguler-semester-6'
+            'slug' => 'mi-reguler-semester-6',
+        ]);
+
+        Subject::create([
+            'subject_code' => 'MKB221',
+            'name' => 'Jaringan Komputer 1',
+            'user_Id' => 8
+        ]);
+
+        Subject::create([
+            'subject_code' => 'MKK221',
+            'name' => 'Bahasa Inggris',
+            'user_id' => 7
+        ]);
+
+        Subject::create([
+            'subject_code' => 'MKB222',
+            'name' => 'Sistem Operasi',
+            'user_id' => 8
+        ]);
+
+        Subject::create([
+            'subject_code' => 'MKK222',
+            'name' => 'Struktur Data',
+            'user_id' => 8
+        ]);
+
+        Subject::create([
+            'subject_code' => 'MKB220',
+            'name' => 'Teori Pemograman Web',
+            'user_id' => 6
+        ]);
+
+        Subject::create([
+            'subject_code' => 'MKB223',
+            'name' => 'Algoritma Pemograman',
+            'user_id' => 8
         ]);
         
     }

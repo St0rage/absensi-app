@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
+use Illuminate\Validation\Rule;
+
 
 class ClassroomController extends Controller
 {
@@ -17,8 +20,10 @@ class ClassroomController extends Controller
     public function index()
     {
         return view('dashboard.kelas.index', [
-            'classrooms' => Classroom::all()
+            'classrooms' => Classroom::with(['users', 'subjects'])->get()
         ]);
+
+        // return Classroom::with(['users', 'subjects'])->get();
     }
 
     /**
@@ -45,7 +50,7 @@ class ClassroomController extends Controller
 
         Classroom::create($validatedData);
 
-        return redirect('/dashboard/kelas')->with('success', 'Kelas ' . $request->name . ' Berhasil ditambahkan');
+        return redirect('/dashboard/classroom')->with('success', 'Kelas ' . $request->name . ' Berhasil ditambahkan');
     }
 
     /**
@@ -58,8 +63,10 @@ class ClassroomController extends Controller
     {
         return view('dashboard.kelas.detail', [
             'classroom' => $classroom,
-            'users' => $classroom->users
+            'classroom' => $classroom->with(['users', 'subjects'])->get()->where('id', $classroom->id)->first()
         ]);
+
+        // return $classroom->with(['users', 'subjects'])->get()->where('id', $classroom->id)->first();
     }
 
     /**
@@ -70,7 +77,9 @@ class ClassroomController extends Controller
      */
     public function edit(Classroom $classroom)
     {
-        return $classroom;
+        return view('dashboard.kelas.edit', [
+            'classroom' => $classroom
+        ]);
     }
 
     /**
@@ -82,7 +91,16 @@ class ClassroomController extends Controller
      */
     public function update(Request $request, Classroom $classroom)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|max:30|unique:classrooms'
+        ]);
+
+        $validatedData['slug'] = SlugService::createSlug(Classroom::class, 'slug', $request->name);
+
+        Classroom::where('id', $classroom->id)
+            ->update($validatedData);
+
+        return redirect('/dashboard/classroom')->with('success', 'Kelas ' . $request->name . ' Berhasil di edit');
     }
 
     /**
@@ -93,15 +111,39 @@ class ClassroomController extends Controller
      */
     public function destroy(Classroom $classroom)
     {
-        //
+        if ($classroom->users->count() >= 1 || $classroom->subjects->count() >= 1) {
+            return redirect('/dashboard/classroom')->with('error', 'Kosongkan Peserta dan atau Mata Kuliah dari Kelas ' . $classroom->name . ' Terlebih Dahulu'); 
+        }
+
+        Classroom::destroy($classroom->id);
+        return redirect('dashboard/classroom')->with('success', 'Kelas ' . $classroom->name . ' Berhasil di edit');
+
     }
 
     public function showParticipant(Classroom $classroom)
     {
         return view('dashboard.kelas.participant', [
             'classroom' => $classroom,
-            'users' => User::where('role_id', 2)->get()
+            'users' => User::where('role_id', 2)
+                ->where('classroom_id', 0)
+                ->orWhere('classroom_id', $classroom->id)
+                ->get()
         ]);
+    }
+
+    public function showSubjects(Classroom $classroom)
+    {
+        $exceptions = [];
+
+        foreach ($classroom->subjects as $subjectsException) {
+            array_push($exceptions, $subjectsException->id);
+        }
+
+        return view('dashboard.kelas.subject', [
+            'classroom' => $classroom,
+            'subjects' => Subject::all()->except($exceptions)
+        ]);
+
     }
 
     public function addParticipant(Request $request)
@@ -117,5 +159,28 @@ class ClassroomController extends Controller
         }
 
         return redirect('/dashboard/classroom/'.$request->classroom_slug)->with('success', 'Peserta berhasil diupdate');
+    }
+
+    public function addSubject(Request $request)
+    {
+        $validatedData = $request->validate([
+            'subject_id' => Rule::prohibitedIf($request->subject_id == 0),
+            'classroom_id' => 'required'
+        ]);
+
+        $classroom = Classroom::find($validatedData['classroom_id']);
+
+        $classroom->subjects()->attach($validatedData['subject_id']);
+
+        return redirect('/dashboard/classroom/subject/'.$classroom->slug)->with('success', 'Mata Kuliah berhasil ditambahkan');
+    }
+
+    public function destroySubject(Classroom $classroom, Request $request)
+    {
+        // return $classroom;
+
+        $classroom->subjects()->detach($request->subject_id);
+
+        return redirect('/dashboard/classroom/subject/'.$classroom->slug)->with('success', 'Mata Kuliah berhasil dihapus');
     }
 }

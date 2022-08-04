@@ -5,15 +5,7 @@
     </button>
     {{-- <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search"> --}}
     <div class="w-100 text-white px-2 text-center col-sm py-2">
-        Teknik Informatika Reguler Semeter 3
+        Selamat Datang {{ auth()->user()->name }}
     </div>
     {{-- <h6 class="w-100">Teknik Informatika Reguler Semeter 3</h6> --}}
-    <div class="navbar-nav">
-        <div class="nav-item text-nowrap">
-            <form action="/logout" method="post">
-                @csrf
-                <button type="submit" class="nav-link px-3 bg-dark border-0">Logout</button>
-            </form>
-        </div>
-    </div>
 </header>
